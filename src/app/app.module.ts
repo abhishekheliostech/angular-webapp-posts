@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import {PostsApiService} from './posts-api.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     HttpClientModule,
+    NgxSpinnerModule,
     NgbModule,
     ReactiveFormsModule
   ],

@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import {PostsApiService} from './posts-api.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-
-
+import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,35 +13,23 @@ export class AppComponent {
 
   postsForm: FormGroup;
 
-  constructor(private postsService: PostsApiService, private formBuilder: FormBuilder) {
+  constructor(private postsService: PostsApiService, private formBuilder: FormBuilder, private spinner: NgxSpinnerService) {
 
   }
 
   // tslint:disable-next-line:use-lifecycle-interface
   ngOnInit() {
-
-    this.postsForm = this.formBuilder.group({
-      name: [''],
-      post: ['']
-    });
-
-    this.postsService.getPosts().subscribe(data => {
-      console.log('data', data);
-      this.posts = data;
-    });
+    this.getPost();
   }
 
   get f() { return this.postsForm.controls; }
 
   addPost() {
     const body = this.postsForm.value;
-    let keyname = 'likes';
+    const keyname = 'likes';
     body[keyname] = 0;
     this.postsService.addPost(body).subscribe(() => {
-      keyname = 'dateCreated';
-      body[keyname] = new Date().getTime();
-
-      this.posts.push(body);
+      this.getPost();
     });
   }
 
@@ -68,5 +55,19 @@ export class AppComponent {
       });
       });
     }
+  }
+
+  getPost() {
+    this.spinner.show();
+    this.postsForm = this.formBuilder.group({
+      name: [''],
+      post: ['']
+    });
+
+    this.postsService.getPosts().subscribe(data => {
+      console.log('data', data);
+      this.posts = data;
+      this.spinner.hide();
+    });
   }
 }
