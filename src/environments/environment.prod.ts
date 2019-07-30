@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  postsApiEndpoint: 'https://post-express-nodeapp.herokuapp.com'
 };
